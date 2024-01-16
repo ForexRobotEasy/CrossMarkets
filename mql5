@@ -1,0 +1,76 @@
+
+//+------------------------------------------------------------------+
+//|                                              CrossMarkets.mq5   |
+//|                                   Copyright 2022, Forex Robot Easy Team |
+//|                                                  forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+#include <Trade\Trade.mqh>
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   // Add initialization code here
+   return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Add deinitialization code here
+}
+
+//+------------------------------------------------------------------+
+//| Expert start function                                            |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   // Add trading logic here
+   Trade.CrossMarkets();
+}
+
+//+------------------------------------------------------------------+
+//| CrossMarkets class                                               |
+//+------------------------------------------------------------------+
+class CrossMarkets
+{
+private:
+   string[] currencyPairs = {'AUDCAD', 'NZDCAD', 'USDCAD', 'GBPCAD', 'CADCHF', 'NZDUSD', 'NZDCHF', 'GBPAUD', 'USDCHF', 'NZDJPY', 'CHFJPY', 'GBPUSD', 'AUDJPY', 'EURNZD', 'EURGBP', 'CADJPY', 'GBPNZD', 'AUDUSD', 'USDJPY', 'EURCHF'};
+   CTrade trade;
+   
+public:
+   CrossMarkets()
+   {
+      // Initialize the trade class
+      trade.SetExpertMagicNumber(123456); // Set magic number for tracking trades
+   }
+   
+   void CrossMarkets()
+   {
+      // Add trading logic here
+      for (int i = 0; i < ArraySize(currencyPairs); i++)
+      {
+         if (ShouldOpenTrade(currencyPairs[i]))
+         {
+            OpenTrade(currencyPairs[i]);
+         }
+      }
+   }
+   
+   bool ShouldOpenTrade(string currencyPair)
+   {
+      // Add logic to determine whether a trade should be opened for the given currency pair
+      return true; // Placeholder logic, always open trade
+   }
+   
+   void OpenTrade(string currencyPair)
+   {
+      // Add logic to open a trade for the given currency pair
+      trade.Buy(0.1, currencyPair, 0, 0, 0, NULL);
+   }
+};
+
